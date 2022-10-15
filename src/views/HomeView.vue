@@ -1,37 +1,58 @@
 
 <template>
   <div class="home">
-    <h3>{{counterTitle}}</h3>
+    <h3>{{stateForm.title}}:</h3>
     <div>
     
       <button @click="decreaseCounter" class="btn">-</button>
       
-      <span class="counter">{{counter}}</span>
+      <span class="counter">{{stateForm.counter}}</span>
 
       <button @click="increaseCounter" class="counter">+</button>
     </div>
 
     <div class="edit">
       <h4>Edit counter title:</h4>
-      <input type="text" v-model="counterTitle" />
+      <input type="text" v-model="stateForm.title" v-focus />
     </div>
   </div>
 </template>
 
 <script setup>
-  import {ref} from 'vue'
-  
-  const counter = ref(10),
-        counterTitle = ref('My counter')
+  import {ref, reactive, watch, onBeforeUnmount, onUnmounted, onBeforeMount, onMounted} from 'vue'
+  import {vFocus} from '@/directives/vFocus'
+  // const counter = ref(10),
+  //       counterTitle = ref('My counter');
 
+  const stateForm = reactive({
+    counter: 5,
+    title: 'Mi titulo'
+  })
+
+  watch( () => stateForm.counter, (newValue) =>{
+    if (newValue === 20) alert("Superaste el valor 20")
+  })
 
   const increaseCounter = () => {
-    counter.value++;
+    stateForm.counter++;
   }
 
   const decreaseCounter = () => {
-    counter.value--;
+    stateForm.counter--;
   }
+
+  onBeforeUnmount(() => {
+    console.log("Before unmount");
+  })
+  onUnmounted(() => {
+    console.log("Unmounted");
+  })
+  onBeforeMount(() => {
+    console.log("Before mount");
+  })
+  onMounted(() => {
+    console.log("Mount");
+  })
 </script>
 
 <!--
